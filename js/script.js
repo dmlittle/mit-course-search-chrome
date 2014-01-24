@@ -38,7 +38,6 @@ document.addEventListener('mouseup', function (e) {
 // Hide the tooltip when the the mosue is clicked somewhere outside tooltip
 $("body > div:not(.course_tooltip)").click(function(e) {
   tooltipDOM.style.visibility = 'hidden';
-  clearSelection();
 });
 
 // Move tooltip to the appropiate location and reveal it
