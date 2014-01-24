@@ -18,18 +18,50 @@ document.addEventListener('mouseup', function (e) {
         var courseName = $(data).find('blockquote').html();
 
         // Fix Image Links
-        var courseName = replaceAll("src=\"/icns", "src=\"http://student.mit.edu/icns", courseName);   
+        courseName = replaceAll("src=\"/icns", "src=\"http://student.mit.edu/icns", courseName);   
 
         // Fix Course Links
-        var courseName = replaceAll("href=\"m", "href=\"http://student.mit.edu/catalog/m", courseName);   
+        courseName = replaceAll("href=\"m", "href=\"http://student.mit.edu/catalog/m", courseName);   
                 
         if (courseName.match(/<h3>/g).length == 1) {
-           var courseName = courseName.substring(courseName.indexOf('<h3>')); //
+           courseName = courseName.substring(courseName.indexOf('<h3>')); //
         } else {
-           var courseName = courseName.substring(courseName.indexOf('<h3>'), courseName.indexOf('<a name="'));
+           courseName = courseName.substring(courseName.indexOf('<h3>'), courseName.indexOf('<a name="'));
           };
+          
+          courseName = courseName + '\n <img alt="______" src="http://student.mit.edu/icns/hr.gif"> <br />';
+          courseName = courseName + '\n <a href="https://edu-apps.mit.edu/ose-rpt/subjectEvaluationSearch.htm?search=Search&subjectCode='+selection+'">Subject Evaluations</a>';
+          
+          var xPos = e.pageX-300 ;
+          var yPos = e.pageY;
+          var tooltipMargin = 30;
+          var tooltipWidth = 600;
+          tooltipDOM.style.width = tooltipWidth + 'px';
+          var windowWidth = $(window).width();
+          var windowOffset = 0;
+          
+          if (windowWidth < tooltipWidth) {
+            tooltipWidth = windowWidth * 0.85 - 2 * tooltipMargin;
+            tooltipDOM.style.width = tooltipWidth + 'px' ;
+          }
 
-        showTooltip(e.pageX-300, e.pageY, courseName);
+          if (xPos < tooltipMargin) {
+            xPos = tooltipMargin;
+          } 
+          
+          if (xPos + tooltipWidth > windowWidth) {
+            xPos += (windowWidth - xPos - tooltipWidth) - tooltipMargin ;      
+          }
+
+          var scrolled = $(document).scrollLeft();
+          if ( scrolled > 0) {
+            xPos += scrolled;
+          }
+          
+          
+          
+        showTooltip(xPos, yPos, courseName);
+        clearSelection();
       });
     }
   }, false);
@@ -56,4 +88,12 @@ function escapeRegExp(str) {
 
 function replaceAll(find, replace, str) {
   return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
+function clearSelection() {
+    if (window.getSelection) {
+        window.getSelection().removeAllRanges();
+    } else if (document.selection) {
+        document.selection.empty();
+    }
 }
