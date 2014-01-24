@@ -57,11 +57,3 @@ function escapeRegExp(str) {
 function replaceAll(find, replace, str) {
   return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
-
-function clearSelection() {
-    if (window.getSelection) {
-        window.getSelection().removeAllRanges();
-    } else if (document.selection) {
-        document.selection.empty();
-    }
-}
