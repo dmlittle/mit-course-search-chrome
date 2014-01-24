@@ -5,7 +5,7 @@ var tooltipDOM;
 document.addEventListener('mouseup', function (e) {
     var selection = window.getSelection().toString();
 
-    if (/^([1-9]|[1-2][0-9]|CMS|cms|STS|sts|21[awfhlmAWFHLM])\.(S?[\d]{2,3}[x]?|UAT|UAP)$/.test(selection)) {
+    if (/^([1-9]|[1-2][0-9]|CMS|cms|STS|sts|21[awfhlmAWFHLM])\.(S?[\d]{2,3}[xB]?|UAT|UAP)$/.test(selection)) {
   
       if ($('.course_tooltip').length === 0) {
         // If we haven't already added a tooltip container, add it.
