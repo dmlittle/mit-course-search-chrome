@@ -11,8 +11,14 @@ document.addEventListener('mouseup', function (e) {
   
       $.get( "http://student.mit.edu/catalog/search.cgi?search="+selection, function(data) {
         var courseName = $(data).find('blockquote').html();
-        var courseName = replaceAll("src=\"/icns", "src=\"http://student.mit.edu/icns", courseName);        
-        var courseName = courseName.substring(courseName.indexOf('<h3>'), courseName.indexOf('<a name="'));
+        var courseName = replaceAll("src=\"/icns", "src=\"http://student.mit.edu/icns", courseName);   
+        
+        if (courseName.match(/<h3>/g).length == 1) {
+           var courseName = courseName.substring(courseName.indexOf('<h3>')); //
+        } else {
+           var courseName = courseName.substring(courseName.indexOf('<h3>'), courseName.indexOf('<a name="'));
+          };
+
         showTooltip(e.pageX-300, e.pageY, courseName);
       });
     }
