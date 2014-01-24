@@ -1,13 +1,18 @@
-// Add empty tooltipContainer to the top of the page.
-var tooltipDOM = document.createElement('div');
-tooltipDOM.setAttribute('class', 'course_tooltip');
-document.body.appendChild(tooltipDOM);
+// Create tooltip variable
+var tooltipDOM;
 
 // Listen to mouseup events to edit/reveal the tooltip information
 document.addEventListener('mouseup', function (e) {
     var selection = window.getSelection().toString();
 
-    if (/^([1-9]|[1-2][0-9]|CMS|STS|21[AWFHLM]|WGS)\.(S?[\d]{2,3}[x]?|UAT|UAP)$/.test(selection)) {
+    if (/^([1-9]|[1-2][0-9]|CMS|cms|STS|sts|21[awfhlmAWFHLM])\.(S?[\d]{2,3}[x]?|UAT|UAP)$/.test(selection)) {
+  
+      if ($('.course_tooltip').length === 0) {
+        // If we haven't already added a tooltip container, add it.
+        tooltipDOM = document.createElement('div');
+        tooltipDOM.setAttribute('class', 'course_tooltip');
+        document.body.appendChild(tooltipDOM);
+      }
   
       $.get( "http://student.mit.edu/catalog/search.cgi?search="+selection, function(data) {
         var courseName = $(data).find('blockquote').html();
