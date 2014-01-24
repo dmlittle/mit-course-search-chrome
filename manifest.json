@@ -1,7 +1,7 @@
 {
   "name": "MIT Course Search (beta)",
   "description": "Search those courses everyone is talking about!",
-  "version": "0.1",
+  "version": "0.2.3",
  	"update_url": "http://mit.edu/dmlittle/www/mit_course_search/update.xml",
   "manifest_version": 2,
   "content_scripts": [
