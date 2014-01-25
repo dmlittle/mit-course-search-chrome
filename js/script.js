@@ -50,7 +50,7 @@ document.addEventListener('mouseup', function (e) {
           } 
           
           if (xPos + tooltipWidth > windowWidth) {
-            xPos += (windowWidth - xPos - tooltipWidth) - tooltipMargin ;      
+            xPos += (windowWidth - xPos - tooltipWidth) - 2 * tooltipMargin ;      
           }
 
           var scrolled = $(document).scrollLeft();
