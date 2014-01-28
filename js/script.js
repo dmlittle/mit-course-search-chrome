@@ -1,18 +1,15 @@
 // Create tooltip variable
 var tooltipDOM;
+var lastSelection = null;
 
 // Listen to mouseup events to edit/reveal the tooltip information
 document.addEventListener('mouseup', function (e) {
     var selection = window.getSelection().toString();
 
-    if (/^([1-9]|[1-2][0-9]|CMS|cms|STS|sts|21[awfhlmAWFHLM])\.(S?[\d]{2,3}[xJaAbBcC]?|UAT|UAP)$/.test(selection)) {
+    if (/^\s?([1-9]|[1-2][0-9]|CMS|cms|STS|sts|21[awfhlmAWFHLM])\.(S?[\d]{2,3}[xJaAbBcC]?|UAT|UAP)\s?$/.test(selection) && selection != lastSelection) {
   
-      if ($('.course_tooltip').length === 0) {
-        // If we haven't already added a tooltip container, add it.
-        tooltipDOM = document.createElement('div');
-        tooltipDOM.setAttribute('class', 'course_tooltip');
-        document.body.appendChild(tooltipDOM);
-      }
+      // Create tooltip container
+      createTooltip();
   
       $.get( "http://student.mit.edu/catalog/search.cgi?search="+selection, function(data) {
         var courseName = $(data).find('blockquote').html();
@@ -58,9 +55,13 @@ document.addEventListener('mouseup', function (e) {
             xPos += scrolled;
           }
           
-          
-          
-        showTooltip(xPos, yPos, courseName);
+                    
+        lastSelection = selection;
+        if (tooltipDOM.style.visibility == 'visible') {
+            changeTooltipText(courseName);
+        } else {
+            showTooltip(xPos, yPos, courseName);
+        }
         clearSelection();
       });
     }
@@ -70,6 +71,7 @@ document.addEventListener('mouseup', function (e) {
 // Hide the tooltip when the the mosue is clicked somewhere outside tooltip
 $("body > div:not(.course_tooltip)").click(function(e) {
   tooltipDOM.style.visibility = 'hidden';
+  lastSelection = null;
 });
 
 // Move tooltip to the appropiate location and reveal it
@@ -80,8 +82,23 @@ function showTooltip(mouseX, mouseY, selection) {
   tooltipDOM.style.visibility = 'visible';
 }
 
+function changeTooltipText(selection) {
+  tooltipDOM.innerHTML = selection;
+}
+
+
 
 // Helped Functions...
+function createTooltip() {
+      if ($('.course_tooltip').length === 0) {
+        // If we haven't already added a tooltip container, add it.
+        tooltipDOM = document.createElement('div');
+        tooltipDOM.setAttribute('class', 'course_tooltip');
+        document.body.appendChild(tooltipDOM);
+      }
+}
+
+
 function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
