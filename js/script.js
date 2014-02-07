@@ -92,7 +92,7 @@ function changeTooltipText(selection) {
 
 // Helped Functions...
 function createTooltip() {
-      if ($('.course_tooltip').length) {
+      if (!$('.course_tooltip').length) {
         // If we haven't already added a tooltip container, add it.
         tooltipDOM = document.createElement('div');
         tooltipDOM.setAttribute('class', 'course_tooltip');
