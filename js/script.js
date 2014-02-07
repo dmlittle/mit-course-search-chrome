@@ -6,7 +6,7 @@ var lastSelection = null;
 document.addEventListener('mouseup', function (e) {
     var selection = window.getSelection().toString();
 
-    if (/^\s?([1-9]|[1-2][0-9]|CMS|cms|STS|sts|21[awfhlmAWFHLM])\.(S?[\d]{2,3}[xJaAbBcC]?|UAT|UAP)\s?$/.test(selection) && selection != lastSelection) {
+    if (/^\s?([1-9]|[1-2][0-9]|CMS|cms|STS|sts|21[awfhlmAWFHLM])\.([sS]?[\d]{2,3}[xJaAbBcC]?|UAT|UAP)\s?$/.test(selection) && selection != lastSelection) {
   
       // Create tooltip container
       createTooltip();
@@ -70,8 +70,10 @@ document.addEventListener('mouseup', function (e) {
 
 // Hide the tooltip when the the mosue is clicked somewhere outside tooltip
 $("body > div:not(.course_tooltip)").click(function(e) {
-  tooltipDOM.style.visibility = 'hidden';
-  lastSelection = null;
+      if ($('.course_tooltip').length) {
+        tooltipDOM.style.visibility = 'hidden';
+        lastSelection = null;
+      }
 });
 
 // Move tooltip to the appropiate location and reveal it
@@ -90,7 +92,7 @@ function changeTooltipText(selection) {
 
 // Helped Functions...
 function createTooltip() {
-      if ($('.course_tooltip').length === 0) {
+      if ($('.course_tooltip').length) {
         // If we haven't already added a tooltip container, add it.
         tooltipDOM = document.createElement('div');
         tooltipDOM.setAttribute('class', 'course_tooltip');
